@@ -8,21 +8,32 @@ var map = new google.maps.Map(document.getElementById("map"), {
 });
 
 var geocoder = new google.maps.Geocoder();
+var markers = [];
 
 const client = algoliasearch('JWHPBFC4T1', '6eb371014c3bff23b98dde01a8ef1763');
-const index = client.initIndex('us_foodbank');
+const index = client.initIndex('us_foodbank');  
+
+var searchOptions = {
+    valueNames: [ 'siteName', 'siteAddress' ],
+    item: '<li><h6 class="siteName"></h6></li>'
+};
+
+var searchList = new List('searchList', searchOptions);
 
 function findResults(lat, lng){
 
     index.search('', {
 
         aroundLatLng: lat + ", " + lng,
-        aroundRadius: 5000
+        // aroundRadius: 5000,
+        hitsPerPage: 20
       }).then(({ hits }) => {
-        console.log(hits)
+        searchList.clear()
         hits.map(createMarker)
       });
 }
+
+
 
 
 
@@ -70,11 +81,17 @@ function createMarker(hit) {
         position: new google.maps.LatLng(lat,lng),
         map: map
     });   
-
+    searchList.add({siteName: name, siteAddress: add})
+    $( ".list li:nth-last-of-type(1)" ).click(function(){
+        infowindow.setContent(contentString);
+        infowindow.open(map, marker)
+    })
    google.maps.event.addListener(marker, 'click', function() {
       infowindow.setContent(contentString);
       infowindow.open(map,marker);
     });
+
+    markers.push(marker);
 
 }
 
