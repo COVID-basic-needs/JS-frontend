@@ -1,8 +1,8 @@
 var infowindow = new google.maps.InfoWindow();
-var latlng = new google.maps.LatLng(45.6770, -111.0429);
+var latlng = new google.maps.LatLng(40.413993, -99.034504);
 
 var map = new google.maps.Map(document.getElementById("map"), {
-  zoom: 6,
+  zoom: 5,
   center: latlng,
   mapTypeId: google.maps.MapTypeId.ROADMAP
 });
