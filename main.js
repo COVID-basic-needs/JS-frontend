@@ -10,7 +10,7 @@ var map = new google.maps.Map(document.getElementById("map"), {
 var geocoder = new google.maps.Geocoder();
 
 const client = algoliasearch('JWHPBFC4T1', '6eb371014c3bff23b98dde01a8ef1763');
-const index = client.initIndex('us_foodbank');  
+const index = client.initIndex('prod_schools');  
 
 var searchOptions = {
     valueNames: [ 'siteName', 'siteAddress' ],
