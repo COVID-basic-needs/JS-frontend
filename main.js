@@ -14,7 +14,7 @@ const index = client.initIndex('us_foodbank');
 
 var searchOptions = {
     valueNames: [ 'siteName', 'siteAddress' ],
-    item: '<li><h6 class="siteName"></h6></li>'
+    item: '<li><h6 class="siteName"></h6> <div class="collapsed"></div></li>'
 };
 
 var searchList = new List('searchList', searchOptions);
@@ -51,7 +51,7 @@ function codeAddress(address) {
             codedLng = results[0].geometry.location.lng();
             findResults(codedLat, codedLng);
         } else {
-            alert("Geocode was not successful for the following reason: " + status);
+            console.log("Geocode was not successful for the following reason: " + status);
         }
     });
     
@@ -59,6 +59,13 @@ function codeAddress(address) {
 
 $('#submit').click(function(){
     codeAddress($("#zipCode").val())
+});
+
+$('body').on('keypress', '#zipCode', function(args) {
+    if (args.keyCode == 13) {
+        $('#submit').click();
+        return false;
+    }
 });
 
 function createMarker(hit) {
@@ -71,10 +78,12 @@ function createMarker(hit) {
     var lunchTime = hit['lunchTime']
     var dinnerTime = hit['dinnerTime']
 
-    var contentString = "Name: " + name +'<br>' + "Address: " + add + '<br>';
+    var defaultContentString = name +'<br>' //+ "Address: " + add + '<br>';
+    var contentString = "Address: " + add + '<br>'
 
     if(contact){
-        contentString = contentString.concat("Contact Phone #: ", contact, "<br>" )
+        contentString = contentString.concat("Contact Phone #: <a href='tel:", contact, "'>",contact,"</a><br>")
+        console.log(contentString)
     }
 
     if(bfastTime){
@@ -90,7 +99,7 @@ function createMarker(hit) {
     }
 
     console.log(contact)
-    console.log(contentString)
+    console.log(defaultContentString.concat(contentString))
     var marker = new google.maps.Marker({
         position: new google.maps.LatLng(lat,lng),
         map: map
@@ -99,22 +108,33 @@ function createMarker(hit) {
 
     searchList.add({siteName: name, siteAddress: add})
     var searchResult = $( ".list li:last-of-type" );
+    var hiddenResult = $( ".list li:last-of-type").children('div');
+    hiddenResult.append(contentString)
 
     searchResult.click(function(self){
-        infowindow.setContent(contentString);
+        infowindow.setContent(defaultContentString);
         infowindow.open(map, marker)
+
         $( ".list li" ).removeClass('hovered');
         $(this).toggleClass('hovered');
+
+        $( ".list li" ).children('div').addClass('collapsed');
+        hiddenResult.removeClass('collapsed');
     })
 
    google.maps.event.addListener(marker, 'click', function() {
-        infowindow.setContent(contentString);
+        infowindow.setContent(defaultContentString);
         infowindow.open(map,marker);
+
+        $( ".list li" ).removeClass('hovered');
+        searchResult.toggleClass('hovered');
+
+        $( ".list li" ).children('div').addClass('collapsed');
+        hiddenResult.removeClass('collapsed');
+
         $("#drawer").animate({
             scrollTop: searchResult.offset().top - $("#drawer").offset().top  + $("#drawer").scrollTop()
         })
-        $( ".list li" ).removeClass('hovered');
-        searchResult.toggleClass('hovered');
 
     
     });
@@ -122,7 +142,6 @@ function createMarker(hit) {
 }
 
 function init() {
-    findResults(latlng.lat(),latlng.lng(),400)
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(runWithGeolocation);
     } else { 
@@ -132,9 +151,18 @@ function init() {
   
 function runWithGeolocation(position) {
     var coordinates = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+
     map.setCenter(coordinates);
     map.setZoom(12);
     findResults(position.coords.latitude, position.coords.longitude);
+
+    geocoder.geocode({'location': coordinates}, function (results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+            $('#zipCode').val(results[0].formatted_address).parent().addClass('is-focused');
+        } else {
+            console.log("Geocode was not successful for the following reason: ")
+        }
+    });
 }
 
 $( document ).ready(function() {
