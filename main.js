@@ -33,7 +33,7 @@ var searchOptions = {
 
 var searchList = new List('searchList', searchOptions);
 
-function findResults(lat, lng, numberHits=20){
+function findResults(lat, lng, numberHits=50){
 
     index.search('', {
 
