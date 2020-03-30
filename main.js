@@ -2,7 +2,7 @@ var infowindow = new google.maps.InfoWindow();
 var latlng = new google.maps.LatLng(40.413993, -99.034504);
 
 var map = new google.maps.Map(document.getElementById("map"), {
-  zoom: 5,
+  zoom: 4,
   center: latlng,
   mapTypeId: google.maps.MapTypeId.ROADMAP
 });
@@ -10,11 +10,11 @@ var map = new google.maps.Map(document.getElementById("map"), {
 var geocoder = new google.maps.Geocoder();
 
 const client = algoliasearch('JWHPBFC4T1', '6eb371014c3bff23b98dde01a8ef1763');
-const index = client.initIndex('us_foodbank');  
+const index = client.initIndex('prod_schools');  
 
 var searchOptions = {
     valueNames: [ 'siteName', 'siteAddress' ],
-    item: '<li><h6 class="siteName"></h6> <div class="collapsed"></div></li>'
+    item: '<li><p class="siteName"></p> <div class="collapsed"></div></li>'
 };
 
 var searchList = new List('searchList', searchOptions);
@@ -46,7 +46,7 @@ function codeAddress(address) {
 
         if (status == google.maps.GeocoderStatus.OK) {
             map.setCenter(results[0].geometry.location);
-            map.setZoom(12);
+            map.setZoom(10);
             codedLat = results[0].geometry.location.lat();
             codedLng = results[0].geometry.location.lng();
             findResults(codedLat, codedLng);
@@ -153,12 +153,12 @@ function runWithGeolocation(position) {
     var coordinates = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 
     map.setCenter(coordinates);
-    map.setZoom(12);
+    map.setZoom(10);
     findResults(position.coords.latitude, position.coords.longitude);
 
     geocoder.geocode({'location': coordinates}, function (results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
-            $('#zipCode').val(results[0].formatted_address).parent().addClass('is-focused');
+            $('#zipCode').val(results[0].formatted_address).parent().addClass('is-dirty');
         } else {
             console.log("Geocode was not successful for the following reason: ")
         }
@@ -168,3 +168,36 @@ function runWithGeolocation(position) {
 $( document ).ready(function() {
     init()
 });
+
+
+$('body')
+  .on('mousedown', '.popover', function(e) {
+    e.preventDefault()
+});
+
+
+var about = `<p>Darcie is an automated phone line anyone can call to find human services near them, such as free food, legal assistance, non-emergency medical help, and more.
+Read more and watch a live stream of the conversations at <a href="http://www.darcie.me">darcie.me</a>  <br/>     
+<b>COVID-19 Update</b>            
+Darcie was intended to pull from all services listed in the <a href="https://sfserviceguide.org/">SF Service Guide</a>, however in the current times the format of the data in that database (a.k.a. <a href="https://github.com/sheltertechsf/askdarcel-api">AskDarcel on github</a>) made it hard to keep the information up to date with service hours & offerings changing.
+We pivoted Darcie to pull from a seperate Algolia index which consists of all hygiene stations & places handing out food in SF. The dialog & webhook have been adopted accordingly.</p>`
+$('#about').popover({
+    content: about,
+    trigger: 'focus',
+    placement:'bottom'
+
+})
+
+var contactInfo = `<p>Contributing, Branching, & Forking
+While we actively accept help, as well as encourage you to fork this repo and build it out for your city, we do not take pull requests directly to this repo - please contact us before you plan to do so. Reach out to: </br>
+<a href = "https://github.com/ShelterTechSF/VACS-MVP">Github</a> 
+ Twitter <a href="https://twitter.com/dariceshelter">@dariceshelter</a></p>`
+
+$('#contact').popover({
+    content: contactInfo,
+    trigger: 'focus',
+    placement:'bottom'
+
+})
+
+

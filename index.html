@@ -1,53 +1,74 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+
+<head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>Food Bank Support</title>
-    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.blue_grey-indigo.min.css" />
-    <link rel="stylesheet" href="style.css" />
-    <meta name=viewport content="width=device-width, initial-scale=1">
-  </head>
-  <body>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="icon" href="assets/favicon.png">
+</head>
 
-    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer">
-
-      <div  id="drawer" class="mdl-layout__drawer">
-          <h3>Food Bank Support</h3>
-          <p>Helping nonprofits communicate with people in need of food</p>
-          
-          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-              <input class="mdl-textfield__input" type="text" id="zipCode">
-              <label class="mdl-textfield__label" for="zipCode">Zip Code / Neighborhood, City, State</label>
-          </div>
-          
-          <br>
-  
-          <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" type="button" id="submit">Search</button><br>
-
-          <div id="searchList">
-            <ul class="list"></ul>
+<body>
+    <div class="container"><nav class="navbar navbar-light navbar-expand-md">
+        <div class="container-fluid"><a class="navbar-brand" ><img src="assets/favicon.png" width="72" height="72"> Food Bank Support</a><button data-toggle="collapse" data-target="#navcol-1" class="navbar-toggler"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse"
+                id="navcol-1">
+                <ul class="nav navbar-nav ml-auto">
+                    <li role="presentation" class="nav-item"><a class="nav-link active" data-toggle="popover" data-trigger="focus" data-html="true"rel="popover" href="#" data-original-title="About" id="about">About</a></li>
+                    <li role="presentation" class="nav-item"><a class="nav-link active" data-toggle="popover" data-trigger="focus" data-html="true"rel="popover" href="#" data-original-title="Contact" id="contact">Contact</a></li>
+                </ul>
+            </div>
         </div>
+    </nav>
+        <div class="row">
+            <div class="col-xl-1">
+            </div>
 
-      </div>
-    </div id="drawer">
-    <div class="mdl-layout__content" id="map"/>
+            <div class="col-md-12 col-lg-7 col-xl-7">
 
-    
+                <div class="row">
+                    <div id="map" style="height: 425px; width: 100%"></div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col">
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" placeholder="Zip Code / Neighborhood, City, State" aria-label="Zip Code / Neighborhood, City, State" aria-describedby="basic-addon2" id="zipCode">
+                            <div class="input-group-append">
+                              <button class="btn btn-outline-secondary" type="button" id="submit">Search</button>
+                            </div>
+                          </div>
+                    </div>
+                </div>
 
+
+
+            </div>
+
+            <div class="col">
+
+                <div class="row" id="drawer" style="height: 500px; display: inline-block;">
+                    <div id="searchList" style="height: 490px; float: none; margin: 0 auto; overflow:auto; ">
+                        <ul class="list"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="footer-copyright text-center py-3"> Made by 
+        <a href="https://rpal.me/"> Roshan</a>
+        © 2020 Copyright
+      </div> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyCFvUcopI3fCfPwQ0cnOunLWnZ08G5ps2c"></script>
+    <script src="https://cdn.jsdelivr.net/npm/algoliasearch@4.0.0/dist/algoliasearch-lite.umd.js" integrity="sha256-MfeKq2Aw9VAkaE9Caes2NOxQf6vUa8Av0JqcUXUGkd0=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4.0.0/dist/instantsearch.production.min.js" integrity="sha256-6S7q0JJs/Kx4kb/fv0oMjS855QTz5Rc2hh9AkIUjUsk=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.js"></script>
+    <script type="text/javascript" src="main.js"></script>
 </body>
 
-<script src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyCFvUcopI3fCfPwQ0cnOunLWnZ08G5ps2c"></script>
-<script src="https://cdn.jsdelivr.net/npm/algoliasearch@4.0.0/dist/algoliasearch-lite.umd.js" integrity="sha256-MfeKq2Aw9VAkaE9Caes2NOxQf6vUa8Av0JqcUXUGkd0=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4.0.0/dist/instantsearch.production.min.js" integrity="sha256-6S7q0JJs/Kx4kb/fv0oMjS855QTz5Rc2hh9AkIUjUsk=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.js"></script>
-<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script type="text/javascript" src="main.js"></script>
-
-
-
-
 </html>
+
