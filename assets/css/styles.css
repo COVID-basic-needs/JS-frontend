@@ -5,53 +5,28 @@
 
 
 
-  .list li {
-    text-align:center;
-    margin-left: 5px;
-    margin-right: 5px;
-    margin-top: 15px;
-    margin-bottom: 15px;
-    border-radius:6px;
-    display:block;
-    background-color: rgb(245, 245, 245);
-    padding:2px;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, .6);
-    margin:10px
-  }
-  .list li:hover{
-    background-color: rgb(220, 220, 220);
-  }
+.list li {
 
-  .list li.hovered{
-    background-color: rgb(220, 220, 220);
-  }
-
-  .list li div {
-      text-align:left;
-      margin-left: 15px;
-  }
-
-  .list li p {
-    margin-left: 15px;
-    margin-right: 15px;
-    margin-top: 5px;
-    margin-bottom: 5px;
-
-  }
+    margin:5px
+}
+ 
 
   .btn{
-    background-color:#0e8b9d;
+    background-color:#10adc5;
     color: white;
   }
 
   .btn:hover{
-    background-color: #096e7e;
+    background-color: #1590a3;
   }
 
   .popover {
     white-space: pre-wrap;    
 }
 
+.list-group-item.active{
+  background-color:#10adc5;
+}
   
 
 

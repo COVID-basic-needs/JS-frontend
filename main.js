@@ -12,9 +12,23 @@ var geocoder = new google.maps.Geocoder();
 const client = algoliasearch('JWHPBFC4T1', '6eb371014c3bff23b98dde01a8ef1763');
 const index = client.initIndex('prod_schools');  
 
+var listTemplate = `<li>
+    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+        <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1 siteName"></h5>
+            <small></small>
+            <span class="glyphicon glyphicon-chevron-down"></span>
+        </div>
+        <p class="mb-1 collapsed"></p>
+    <small></small>
+</a></li>
+`
+
+
+
 var searchOptions = {
     valueNames: [ 'siteName', 'siteAddress' ],
-    item: '<li><p class="siteName"></p> <div class="collapsed"></div></li>'
+    item: listTemplate
 };
 
 var searchList = new List('searchList', searchOptions);
@@ -108,17 +122,18 @@ function createMarker(hit) {
 
     searchList.add({siteName: name, siteAddress: add})
     var searchResult = $( ".list li:last-of-type" );
-    var hiddenResult = $( ".list li:last-of-type").children('div');
+    var searchResultLink = $( ".list li:last-of-type a" );
+    var hiddenResult = $( ".list li:last-of-type a").children('p');
     hiddenResult.append(contentString)
 
     searchResult.click(function(self){
         infowindow.setContent(defaultContentString);
         infowindow.open(map, marker)
 
-        $( ".list li" ).removeClass('hovered');
-        $(this).toggleClass('hovered');
+        $( ".list li a" ).removeClass('active');
+        searchResultLink.toggleClass('active');
 
-        $( ".list li" ).children('div').addClass('collapsed');
+        $( ".list li a" ).children('p').addClass('collapsed');
         hiddenResult.removeClass('collapsed');
     })
 
@@ -126,10 +141,10 @@ function createMarker(hit) {
         infowindow.setContent(defaultContentString);
         infowindow.open(map,marker);
 
-        $( ".list li" ).removeClass('hovered');
-        searchResult.toggleClass('hovered');
+        $( ".list li a" ).removeClass('active');
+        searchResultLink.toggleClass('active');
 
-        $( ".list li" ).children('div').addClass('collapsed');
+        $( ".list li a" ).children('p').addClass('collapsed');
         hiddenResult.removeClass('collapsed');
 
         $("#drawer").animate({
@@ -170,10 +185,10 @@ $( document ).ready(function() {
 });
 
 
-// $('body')
-//   .on('mousedown', '.popover', function(e) {
-//     e.preventDefault()
-// });
+$('body')
+  .on('mousedown', '.popover', function(e) {
+    e.preventDefault()
+});
 
 
 var about = `<p>Darcie is an automated phone line anyone can call to find human services near them, such as free food, legal assistance, non-emergency medical help, and more. Read more and watch a live stream of the conversations at <a href="http://www.darcie.me">darcie.me</a> <br/> <b>COVID-19 Update</b> Darcie was intended to pull from all services listed in the <a href="https://sfserviceguide.org/">SF Service Guide</a>, however in the current times the format of the data in that database (a.k.a. <a href="https://github.com/sheltertechsf/askdarcel-api">AskDarcel on github</a>) made it hard to keep the information up to date with service hours & offerings changing. We pivoted Darcie to pull from a seperate Algolia index which consists of all hygiene stations & places handing out food in SF. The dialog & webhook have been adopted accordingly.</p>`
