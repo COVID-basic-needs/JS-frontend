@@ -1,9 +1,22 @@
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+.container {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding-bottom: 1em;
+}
+
 .collapsed{
     display:none;
     overflow: hidden;
 }
-
-
 
 .list li {
 
@@ -27,6 +40,47 @@
 .list-group-item.active{
   background-color:#10adc5;
 }
+
   
 
 
+footer {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding-bottom: 2rem;
+  text-align: center;
+  bottom: 0px; 
+  width: 100%; 
+  height: 4rem; 
+  background-color: #efefef;
+}
+
+#filter{
+  display: inline-block;
+  vertical-align: middle;
+  padding-top: 1rem;
+  color: #2e047c;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+#filter:hover{
+  color: #6133b8;
+}
+
+.directionLink{
+  display: inline-block;
+  vertical-align: middle;
+  padding-top: 1rem;
+  text-decoration: underline;
+}
+
+.directionLink a{
+  color: #dfb0ff;
+}
+
+.directionLink a:hover{
+  color: rgb(224, 210, 233);
+}
