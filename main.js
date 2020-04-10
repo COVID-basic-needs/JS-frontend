@@ -19,7 +19,7 @@ const client = algoliasearch('JWHPBFC4T1', '6eb371014c3bff23b98dde01a8ef1763');
 const index = client.initIndex('prod_schools');  
 
 var listTemplate = `<li>
-    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+    <a href="#" class="shadow-sm list-group-item list-group-item-action flex-column align-items-start">
         <div class="d-flex w-100 justify-content-between">
             <h5 class="mb-1 siteName"></h5>
             <small class="distance"></small>
